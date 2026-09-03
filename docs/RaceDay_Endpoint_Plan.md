@@ -39,4 +39,10 @@ This document lists every API endpoint the RaceDay system will expose, to be imp
 | POST | /api/events/{eventId}/enrolments | Enrols the logged-in Participant into an event under a chosen category. | Participant | { categoryId } | 201 Created - enrolment record with status Pending. 404 Not Found - event/category invalid. 409 Conflict - already enrolled. |
 | GET | /api/users/me/enrolments | Returns all of the logged-in Participant's own enrolments. | Participant | None | 200 OK - array of enrolments. |
 | GET | /api/events/{eventId}/enrolments | Returns all Participants enrolled in a specific event, for the owning Organiser. | Organiser | None | 200 OK - array of enrolments with participant details. 403 Forbidden - not the owning Organiser. |
+
 ## Results
+| HTTP Method | Route | Description | Role Required | Request Body | Expected Response |
+|---|---|---|---|---|---|
+| POST | /api/enrolments/{enrolmentId}/result | Captures the finish time and finishing position for a Participant's enrolment. | Organiser | { finishTime, finishingPosition } | 201 Created - result record. 403 Forbidden - not the owning Organiser. 404 Not Found - enrolment does not exist. |
+| GET | /api/users/me/results | Returns the logged-in Participant's full personal race history. | Participant | None | 200 OK - array of results joined with event/category info. |
+| GET | /api/events/{eventId}/results | Returns all results for a specific event (e.g. for publishing a results list). | Any (logged in) | None | 200 OK - array of results. 404 Not Found - event does not exist. |
