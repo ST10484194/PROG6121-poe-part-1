@@ -32,6 +32,11 @@ This document lists every API endpoint the RaceDay system will expose, to be imp
 | POST | /api/events/{eventId}/categories | Adds a new age/distance category to an event. | Organiser | { categoryName, minAge, maxAge, distanceKm } | 201 Created - new category record. 403 Forbidden - not the owning Organiser. |
 | PUT | /api/categories/{id} | Updates an existing category. | Organiser | { categoryName, minAge, maxAge, distanceKm } | 200 OK - updated category. 403 Forbidden. 404 Not Found. |
 | DELETE | /api/categories/{id} | Removes a category from an event. | Organiser | None | 204 No Content. 403 Forbidden. 404 Not Found. |
-## Event Enrolments
 
+## Event Enrolments
+| HTTP Method | Route | Description | Role Required | Request Body | Expected Response |
+|---|---|---|---|---|---|
+| POST | /api/events/{eventId}/enrolments | Enrols the logged-in Participant into an event under a chosen category. | Participant | { categoryId } | 201 Created - enrolment record with status Pending. 404 Not Found - event/category invalid. 409 Conflict - already enrolled. |
+| GET | /api/users/me/enrolments | Returns all of the logged-in Participant's own enrolments. | Participant | None | 200 OK - array of enrolments. |
+| GET | /api/events/{eventId}/enrolments | Returns all Participants enrolled in a specific event, for the owning Organiser. | Organiser | None | 200 OK - array of enrolments with participant details. 403 Forbidden - not the owning Organiser. |
 ## Results
