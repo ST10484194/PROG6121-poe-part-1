@@ -12,6 +12,11 @@ This document lists every API endpoint the RaceDay system will expose, to be imp
 
 ## User Profile
 
+| HTTP Method | Route | Description | Role Required | Request Body | Expected Response |
+|---|---|---|---|---|---|
+| GET | /api/users/me | Returns the logged-in user's own profile information. | Any (logged in) | None | 200 OK - user profile object. 401 Unauthorized - no active session. |
+| PUT | /api/users/me | Updates the logged-in user's own profile information. | Any (logged in) | { fullName, contactNumber, profilePictureUrl } | 200 OK - updated profile returned. 400 Bad Request - validation failed. |
+
 ## Events
 
 ## Categories
