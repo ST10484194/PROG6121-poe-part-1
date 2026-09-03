@@ -19,6 +19,14 @@ This document lists every API endpoint the RaceDay system will expose, to be imp
 
 ## Events
 
+| HTTP Method | Route | Description | Role Required | Request Body | Expected Response |
+|---|---|---|---|---|---|
+| GET | /api/events | Returns a list of all upcoming events, viewable by both roles. | Any (logged in) | None | 200 OK - array of events. |
+| GET | /api/events/{id} | Returns full detail for a single event, including its categories. | Any (logged in) | None | 200 OK - event detail object. 404 Not Found - event does not exist. |
+| POST | /api/events | Creates a new event owned by the logged-in Organiser. | Organiser | { name, description, eventDate, location, distanceKm, eventType } | 201 Created - new event record. 400 Bad Request - validation failed. |
+| PUT | /api/events/{id} | Updates an existing event owned by the logged-in Organiser. | Organiser | { name, description, eventDate, location, distanceKm, eventType } | 200 OK - updated event. 403 Forbidden - not the owning Organiser. 404 Not Found. |
+| DELETE | /api/events/{id} | Deletes an event owned by the logged-in Organiser. | Organiser | None | 204 No Content. 403 Forbidden - not the owning Organiser. 404 Not Found. |
+| POST | /api/events/{id}/banner | Uploads/replaces the banner image for an event (stored via Azure Blob in Part 3). | Organiser | multipart/form-data image file | 200 OK - banner URL returned. 400 Bad Request - invalid file type. |
 ## Categories
 
 ## Event Enrolments
