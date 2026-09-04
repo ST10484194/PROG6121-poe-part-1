@@ -51,9 +51,42 @@ CREATE TABLE Users (
 GO
 
 /* ============================================================
-   SEED DATA
-   (added incrementally below as the script develops)
+   TABLE: Events
+   Created and managed by an Organiser (Users.UserID).
    ============================================================ */
+CREATE TABLE Events (
+    EventID         INT IDENTITY(1,1) PRIMARY KEY,
+    OrganiserID     INT NOT NULL,
+    Name            VARCHAR(150) NOT NULL,
+    Description     VARCHAR(1000) NULL,
+    EventDate       DATETIME NOT NULL,
+    Location        VARCHAR(150) NOT NULL,
+    DistanceKm      DECIMAL(6,2) NOT NULL,
+    EventType       VARCHAR(10) NOT NULL DEFAULT 'Run', -- Run / Walk / Cycle
+    BannerImageUrl  VARCHAR(255) NULL,
+    CreatedAt       DATETIME NOT NULL DEFAULT GETDATE(),
+    CONSTRAINT FK_Events_Organiser FOREIGN KEY (OrganiserID) REFERENCES Users(UserID),
+    CONSTRAINT CK_Events_EventType CHECK (EventType IN ('Run','Walk','Cycle'))
+);
+GO
 
-   SELECT * FROM Roles;
+/* ============================================================
+   TABLE: Categories
+   Age or distance categories defined per Event.
+   ============================================================ */
+CREATE TABLE Categories (
+    CategoryID      INT IDENTITY(1,1) PRIMARY KEY,
+    EventID         INT NOT NULL,
+    CategoryName    VARCHAR(50) NOT NULL,
+    MinAge          INT NULL,
+    MaxAge          INT NULL,
+    DistanceKm      DECIMAL(6,2) NULL,
+    CONSTRAINT FK_Categories_Events FOREIGN KEY (EventID) REFERENCES Events(EventID) ON DELETE CASCADE
+);
+GO
+
+
+SELECT * FROM Roles;
 SELECT * FROM Users;
+SELECT * FROM Events;
+SELECT * FROM Categories;
