@@ -85,8 +85,43 @@ CREATE TABLE Categories (
 );
 GO
 
+/* ============================================================
+   TABLE: Enrolments
+   Links a Participant (Users.UserID) to an Event and a Category.
+   ============================================================ */
+CREATE TABLE Enrolments (
+    EnrolmentID     INT IDENTITY(1,1) PRIMARY KEY,
+    ParticipantID   INT NOT NULL,
+    EventID         INT NOT NULL,
+    CategoryID      INT NOT NULL,
+    EnrolmentStatus VARCHAR(20) NOT NULL DEFAULT 'Pending', -- Pending / Confirmed
+    EnrolmentDate   DATETIME NOT NULL DEFAULT GETDATE(),
+    CONSTRAINT FK_Enrolments_Users FOREIGN KEY (ParticipantID) REFERENCES Users(UserID),
+    CONSTRAINT FK_Enrolments_Events FOREIGN KEY (EventID) REFERENCES Events(EventID),
+    CONSTRAINT FK_Enrolments_Categories FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID),
+    CONSTRAINT CK_Enrolments_Status CHECK (EnrolmentStatus IN ('Pending','Confirmed')),
+    CONSTRAINT UQ_Enrolments_ParticipantEvent UNIQUE (ParticipantID, EventID)
+);
+GO
+
+/* ============================================================
+   TABLE: Results
+   One-to-one with Enrolments; captured by the Organiser after
+   the event concludes.
+   ============================================================ */
+CREATE TABLE Results (
+    ResultID            INT IDENTITY(1,1) PRIMARY KEY,
+    EnrolmentID         INT NOT NULL UNIQUE,
+    FinishTime          TIME NOT NULL,
+    FinishingPosition   INT NOT NULL,
+    RecordedAt          DATETIME NOT NULL DEFAULT GETDATE(),
+    CONSTRAINT FK_Results_Enrolments FOREIGN KEY (EnrolmentID) REFERENCES Enrolments(EnrolmentID) ON DELETE CASCADE
+);
+GO
 
 SELECT * FROM Roles;
 SELECT * FROM Users;
 SELECT * FROM Events;
 SELECT * FROM Categories;
+SELECT * FROM Enrolments;
+SELECT * FROM Results;
