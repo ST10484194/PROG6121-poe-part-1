@@ -136,24 +136,6 @@ VALUES
 ((SELECT RoleID FROM Roles WHERE RoleName = 'Participant'),'Ndivhuwo Tshivhase',   'ndivhuwo.tshivhase@example.com',     'HASHED_PWD_4', '0733334444', GETDATE());
 GO
 
--- Events: 3 events, created by the two Organisers
-INSERT INTO Events (OrganiserID, Name, Description, EventDate, Location, DistanceKm, EventType, CreatedAt)
-VALUES
-(1, 'Thohoyandou Heritage Run',   'A road run celebrating Venda heritage through the streets of Thohoyandou.', '2026-10-04 07:00:00', 'Thohoyandou, Limpopo', 21.10, 'Run',   GETDATE()),
-(1, 'Phiphidi Falls Fun Walk',    'A family-friendly walk near the scenic Phiphidi Falls, supporting local schools.', '2026-11-15 08:00:00', 'Thohoyandou, Limpopo', 5.00,  'Walk',  GETDATE()),
-(2, 'Soutpansberg Cycle Classic', 'A challenging cycling route through the Soutpansberg mountains.',          '2026-09-20 06:30:00', 'Louis Trichardt, Limpopo', 94.70, 'Cycle', GETDATE());
-GO
-
--- Categories: at least one set per event
-INSERT INTO Categories (EventID, CategoryName, MinAge, MaxAge, DistanceKm)
-VALUES
-(1, 'Senior 21km',   20, 59, 21.10),
-(1, 'Under 20',       0, 19, 21.10),
-(2, '5km Fun Walk',   0, 99, 5.00),
-(3, '94.7km Cycle',   18, 99, 94.70),
-(3, '47km Cycle',     14, 99, 47.00);
-GO
-
 SELECT * FROM Roles;
 SELECT * FROM Users;
 SELECT * FROM Events;
