@@ -29,6 +29,6 @@ A GitHub Actions workflow automatically validates that this repository contains 
 
 ## Video Walkthrough
 
-[Watch the Part 1 walkthrough on YouTube]()
+[Watch the Part 1 walkthrough on YouTube](https://youtu.be/PVn1d24QPz0)
 
 In this video I walk through the ERD design decisions, the endpoint plan choices, and run the SQL script live in SSMS.
